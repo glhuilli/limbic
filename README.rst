@@ -57,6 +57,9 @@ package.
 Usage
 -----
 
+Below there's a step by step explanation on how to use this package, but
+you can go directly to the examples included in the ``scripts`` folder.
+
 As mentioned before, the only emotion model supported in ``limbic`` at
 the moment is lexicon-based. So the first step is to get a lexicon for
 emotion analysis.
