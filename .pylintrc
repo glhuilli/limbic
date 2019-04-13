@@ -1,0 +1,9 @@
+[MESSAGES CONTROL]
+
+# R0903: Too few public methods (1/2) (too-few-public-methods)
+# C0111: Missing module docstring (missing-docstring)
+# W1203: Use % formatting in logging functions and pass the % parameters as arguments (logging-fstring-interpolation)
+# C0103: Constant name doesn't conform to UPPER_CASE naming style (invalid-name)
+# W0511: Used when a warning note as FIXME or XXX is detected
+
+disable=R0903,C0111,W1203,C0103,W0511
