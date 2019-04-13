@@ -1,3 +1,9 @@
+#idea
+.idea
+
+# Data folder is too heavy
+data
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -73,7 +79,7 @@ target/
 .ipynb_checkpoints
 
 # pyenv
-.python-version
+#.python-version
 
 # celery beat schedule file
 celerybeat-schedule
