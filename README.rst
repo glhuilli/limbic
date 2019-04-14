@@ -13,7 +13,10 @@ able to help. For now, it only support plain text and subtitles, but the
 idea is to extend it to other formats (``pdf``, ``email``, etc.). In the
 meantime, this includes a basic example on how to use it on plain text
 and another example on how to use it in a collection of subtitles for
-series (all episodes for all seasons of a show).
+series (all episodes for all seasons of a show). The name of the package is
+based on the `limbic system <https://en.wikipedia.org/wiki/Limbic_system>`__, which
+is a set of brain structures that supports different functions,
+like emotions or behavior among others.
 
 The main strategy to compute the emotions from text supported right now
 is via lexicon-based word matching, which is quite straightforward and
@@ -30,7 +33,7 @@ These will be considered as future work. However, if you have some ideas
 or want to contribute, please do! just let me know how can I help :)
 
 It's important to note that if you are using the NRC or other
-proprietary lexicons you should follow their `terms of
+proprietary lexicons you should read and follow their `terms of
 use <https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm>`__.
 Otherwise, if you are using this package with your own lexicons you can
 use it however you want following the MIT license.
@@ -38,7 +41,7 @@ use it however you want following the MIT license.
 Install
 -------
 
-In the meantime I finish adding this as a `pypi` package, you can install
+In the meantime, while I finish adding this as a `pypi` package, you can install
 it by building the source code from the repository by first
 installing all the dependencies from the ``requirements.txt`` file and
 the dependencies for ``Spacy``, the NLP framework used through this
@@ -58,7 +61,8 @@ Usage
 -----
 
 Below there's a step by step explanation on how to use this package, but
-you can go directly to the examples included in the ``scripts`` folder.
+you can go directly to the examples included in the ``scripts`` folder to play
+around with some jupyter notebooks.
 
 As mentioned before, the only emotion model supported in ``limbic`` at
 the moment is lexicon-based. So the first step is to get a lexicon for

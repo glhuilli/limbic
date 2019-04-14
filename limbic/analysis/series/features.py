@@ -30,8 +30,8 @@ def all_moving_windows(seasons_episodes_subtitles_emotions, categories: List[str
     return pd.DataFrame.from_dict(data)
 
 
-def get_features(seasons_episodes_subtitles_emotions,
-                 imdb_data,
+def get_features(seasons_episodes_subtitles_emotions: Dict[int, Dict[int, List[TimeEmotion]]],
+                 imdb_data: Dict[str, Any],
                  categories: List[str],
                  min_threshold: float = 8.0,
                  max_threshold: float = 9.0) -> pd.DataFrame:
@@ -56,11 +56,11 @@ def _add_data(episodes_data: Dict[str, Any], features: Dict[str, float], ratings
     episodes_data['votes'].append(votes)
 
 
-def _get_rating(imdb_data, season, episode):
+def _get_rating(imdb_data: Dict[str, List[Any]], season, episode):
     return float(imdb_data[str(season)][episode - 1]['imdbRating'])
 
 
-def _get_votes(imdb_data, season, episode):
+def _get_votes(imdb_data: Dict[str, List[Any]], season, episode):
     return int(imdb_data[str(season)][episode - 1]['imdbVotes'])
 
 
