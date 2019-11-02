@@ -41,9 +41,12 @@ def _load_nrc_affect_intensity(lexicon_file_path: str) -> Lexicon:
     """
     data: Dict[str, List[Emotion]] = defaultdict(list)
     categories = set()
+    skip = True  # Needed to skip a new disclaimer added to the lexicon file by the NRC.
     with open(lexicon_file_path, 'r') as intensity_file:
         for idx, line in enumerate(intensity_file.readlines()):
-            if idx == 0:
+            if skip:
+                if line == 'term	score	AffectDimension\n':
+                    skip = False
                 continue
             term, score, affect_dimension = line.strip().split('\t')
             data[term].append(Emotion(value=float(score), category=affect_dimension, term=term))
