@@ -10,7 +10,9 @@ Introduction
 The objective of this package is simple: If you need to compute some ``emotion analysis`` on a word or a set of words this should be able to help. For now, it only supports plain text and subtitles, but the idea is to extend it to other formats (``pdf``, ``email``, among other formats). In the meantime, this includes a basic example on how to use it on plain text and another example on how to use it in a collection of subtitles for series (all episodes for all seasons of a show). The name of the package is based on the `limbic system <https://en.wikipedia.org/wiki/Limbic_system>`__, which is a set of brain structures that support different functions, like emotions or behavior among others.
 
 There are two strategies to compute the emotions from text supported right now:
+
 - Via lexicon-based word matching, which is quite straightforward and examples of its usage are described below.
+
 - Via a multi-label machine learning classifier trained with the specific purpose of identifying emotions and their strength in full sentences.
 
 Limbic also has a set of tools that are easy to reuse and extend for different use cases. For example, contains tools for the analysis of subtitles in a show, but can be easily extended to analyze books, papers, websites, customer reviews, or even further applications like comparing a movie script with its book, comparing properties of movies in a sequel, among others.
@@ -64,6 +66,7 @@ To use the pre-trained version included in this package, you need to do
 Then it can be used to get the emotions for a given sentence, for example:
 
 ::
+
     >>> sentence = "I love and enjoy this sentence."
     >>> tf_model.get_sentence_emotions(sentence)
     [EmotionValue(category='sadness', value=0.14813733),
