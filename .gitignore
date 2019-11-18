@@ -1,6 +1,16 @@
 #idea
 .idea
 
+# tmp scripts
+scripts_tmp
+
+# tmp models 
+scripts/model_fasttext.bin
+
+# tensorflow logs
+scripts/logs
+scripts/tensorflow_logs
+
 # Data folder is too heavy
 data
 
