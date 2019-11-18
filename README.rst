@@ -76,6 +76,7 @@ Then it can be used to get the emotions for a given sentence, for example:
 
 
 It's very important to understand the constraints and limitations of the model:
+
 - It was built only for a very narrow set of emotions (called Affection Emotions in `limbic`), which are "joy", "sadness", "anger", and "fear".
 - It was built with a synthetic dataset created using the lexicon-based model from a very particular dataset (top ~90 books from different websites). This means that any biases that could come from this setup will be included in the trained model.
 - Emotions were not computed using any context disambiguation for the books used, as shown in the Game of Thrones example, it's important that you setup some context when computing emotions (words could mean totally different things depending on the context), so any unfortunate relationship associated by the lexicon-based model could be included in the ML model.
