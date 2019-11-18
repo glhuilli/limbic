@@ -1,10 +1,17 @@
-from typing import Dict, List, NamedTuple, Optional, Set
+from typing import Any, Dict, List, NamedTuple, Optional, Set
+
+from keras_preprocessing.text import Tokenizer as KerasTokenizer
 
 
 class Emotion(NamedTuple):
     category: str
     value: float
     term: str
+
+
+class EmotionValue(NamedTuple):
+    category: str
+    value: float
 
 
 class TimeEmotion(NamedTuple):
@@ -20,3 +27,10 @@ class Lexicon(NamedTuple):
 class ProcessParams(NamedTuple):
     lexicon: Lexicon
     terms_mapping: Optional[Dict[str, str]]
+
+
+class TfModelParams(NamedTuple):
+    model: Any  # TODO: find a way to invoke the TensorFlow python class types.
+    tokenizer: KerasTokenizer
+    max_len: int
+    emotions: List[str]
