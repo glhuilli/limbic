@@ -29,17 +29,12 @@ In the meantime, while I finish adding this as a `pypi` package, you can install
 it by building the source code from the repository by first
 installing all the dependencies from the ``requirements.txt`` file and
 the dependencies for ``Spacy``, the NLP framework used through this
-package.
+package. However, it might be easier to use `pip install` directly from the Github repository, as shown below,
 
 ::
+    pip install git+https://github.com/glhuilli/limbic.git
+    python -m spacy download en_core_web_sm
 
-    git clone https://github.com/glhuilli/limbic.git
-    cd limbic
-    virtualenv -p python3 venv
-    source venv/bin/activate
-    pip install -r requirements.txt
-    python -m spacy download en
-    python setup.py install
 
 Usage
 -----

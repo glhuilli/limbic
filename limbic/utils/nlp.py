@@ -2,7 +2,7 @@ from typing import List
 
 import spacy
 
-nlp = spacy.load('en')
+nlp = spacy.load('en_core_web_sm')
 
 
 def get_negated_words(sentence: str) -> List[str]:
