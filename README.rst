@@ -32,6 +32,7 @@ the dependencies for ``Spacy``, the NLP framework used through this
 package. However, it might be easier to use `pip install` directly from the Github repository, as shown below,
 
 ::
+
     pip install git+https://github.com/glhuilli/limbic.git
     python -m spacy download en_core_web_sm
 
