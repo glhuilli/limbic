@@ -258,3 +258,8 @@ v0.0.2 (2019-11-17)
 -------------------
 
 * TensorFlow Machine learning model for multi-label classification of emotions, based on "affinity emotions" (joy, sadness, anger, and fear).
+
+v0.1.0 (2019-12-13)
+-------------------
+
+* Spacy upgrade into using the en_core_web_sm language model, needed to be installed in an additional independent step.
