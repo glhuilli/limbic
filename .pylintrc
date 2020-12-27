@@ -5,5 +5,8 @@
 # W1203: Use % formatting in logging functions and pass the % parameters as arguments (logging-fstring-interpolation)
 # C0103: Constant name doesn't conform to UPPER_CASE naming style (invalid-name)
 # W0511: Used when a warning note as FIXME or XXX is detected
+# C0301: Line too long (102/100) (line-too-long)
+# W0108: Lambda may not be necessary (unnecessary-lambda)
+# R0914: Too many local variables (16/15) (too-many-locals) 
 
-disable=R0903,C0111,W1203,C0103,W0511
+disable=R0903,C0111,W1203,C0103,W0511,C0301,W0108,R0914

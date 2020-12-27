@@ -3,11 +3,12 @@ from typing import Any, Dict, List
 
 import pandas as pd
 
-from limbic.limbic_types import TimeEmotion
 from limbic.analysis import get_max_delta, get_mean, get_total, moving_window
+from limbic.limbic_types import TimeEmotion
 
 
-def all_moving_windows(seasons_episodes_subtitles_emotions, categories: List[str],
+def all_moving_windows(seasons_episodes_subtitles_emotions,
+                       categories: List[str],
                        window: int = 2) -> pd.DataFrame:
     data: Dict[str, List[Any]] = {
         'episode': [],

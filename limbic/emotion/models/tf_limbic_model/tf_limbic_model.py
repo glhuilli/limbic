@@ -3,10 +3,9 @@ from typing import List, Optional
 import numpy as np
 import tensorflow as tf
 
+from limbic.emotion.models.tf_limbic_model.utils import load_model
 from limbic.limbic_constants import AFFECT_INTENSITY_EMOTIONS
 from limbic.limbic_types import EmotionValue, TfModelParams
-from limbic.emotion.models.tf_limbic_model.utils import load_model
-
 
 _VERSION = '2019-11-16'
 # TODO: Move _MAX_LEN and _EMOTIONS parameter to a config file associated to _VERSION
@@ -18,7 +17,6 @@ class TfLimbicModel:
     Note that this is just an interface to use the model as input.
     The actual model and it's training details are available in emotion/models/tf_limbic_model/utils.py
     """
-
     def __init__(self, model_params: Optional[TfModelParams] = None) -> None:
         if model_params:
             self.tokenizer = model_params.tokenizer
@@ -35,7 +33,8 @@ class TfLimbicModel:
 
     def _process_input(self, sentence: str):
         tokenized_sentence = self.tokenizer.texts_to_sequences([sentence])
-        padded_tokens = tf.keras.preprocessing.sequence.pad_sequences(tokenized_sentence, maxlen=self.max_len)[0]
+        padded_tokens = tf.keras.preprocessing.sequence.pad_sequences(tokenized_sentence,
+                                                                      maxlen=self.max_len)[0]
         return np.expand_dims(padded_tokens, 0)
 
     def predict(self, sentence: str):

@@ -12,14 +12,13 @@ def plot_emotion_all_episodes(subtitles_emotions, category):
         subtitles_emotions, category)
     sns.set(style='ticks')
     pal = sns.color_palette()
-    g = sns.FacetGrid(
-        df_category_moving_window,
-        row='episode',
-        col='season',
-        hue='episode',
-        aspect=4,
-        height=.8,
-        palette=pal)
+    g = sns.FacetGrid(df_category_moving_window,
+                      row='episode',
+                      col='season',
+                      hue='episode',
+                      aspect=4,
+                      height=.8,
+                      palette=pal)
     g.map(plt.plot, 'time', f'total_{category}')
     g.map(plt.axhline, y=0, lw=1, clip_on=False)
     g.fig.subplots_adjust(hspace=-0.00)

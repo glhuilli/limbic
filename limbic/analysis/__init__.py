@@ -21,7 +21,9 @@ def get_mean(emotions: List[TimeEmotion], category: str) -> np.ndarray:
     return np.mean(values)
 
 
-def moving_window(emotions: List[TimeEmotion], category: str, step: int = 120,
+def moving_window(emotions: List[TimeEmotion],
+                  category: str,
+                  step: int = 120,
                   window: int = 300) -> List[float]:
     window_start = 0
     current_window_total = 0.0
@@ -39,7 +41,9 @@ def moving_window(emotions: List[TimeEmotion], category: str, step: int = 120,
     return windows_total
 
 
-def get_max_delta(emotions: List[TimeEmotion], category: str, step: int = 120,
+def get_max_delta(emotions: List[TimeEmotion],
+                  category: str,
+                  step: int = 120,
                   window: int = 300) -> Tuple[float, int]:
     window_totals = moving_window(emotions, category, step=step, window=window)
     previous_window_total = 0.0
