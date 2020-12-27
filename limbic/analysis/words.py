@@ -31,15 +31,18 @@ def plot_emotions_wordclouds(emotions: List[TimeEmotion],
         ax.set_title(f'{title_prefix} cloud for "{emotion}"', fontsize=16)
         fig.set_figheight(10)
         fig.set_figwidth(18)
-        word_cloud = WordCloud(
-            background_color='white', max_words=200, max_font_size=40, scale=3,
-            random_state=42).generate(emotion_terms)
+        word_cloud = WordCloud(background_color='white',
+                               max_words=200,
+                               max_font_size=40,
+                               scale=3,
+                               random_state=42).generate(emotion_terms)
         ax.imshow(word_cloud)
         ax.axis('off')
     plt.show()
 
 
-def _weighted_emotions_terms(emotions: List[TimeEmotion], category: str,
+def _weighted_emotions_terms(emotions: List[TimeEmotion],
+                             category: str,
                              unique_terms: Optional[Set[str]] = None) -> str:
     porter = PorterStemmer()
     total_emotion_per_term: Dict[str, float] = defaultdict(float)

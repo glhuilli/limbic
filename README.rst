@@ -37,6 +37,27 @@ package. However, it might be easier to use `pip install` directly from the Gith
     python -m spacy download en_core_web_sm
 
 
+Development
+-----------
+
+To contribute, please install the ``requirements_dev.txt`` available with the package, modify the code and send a pull request. You can run the unit tests by using ``nose``,
+
+::
+
+    nosetests
+
+
+This will generate a full report with the current coverage available in ``cover/index.html``
+
+Also, I highly encourage to use ``pylint`` and ``yapf`` for formatting,
+
+::
+
+    yapf -vv -pri ./limbic
+    pylint -j 4 --rcfile=.pylintrc limbic/*
+    isort --apply ./limbic
+
+
 Usage
 -----
 
@@ -263,3 +284,8 @@ v0.1.0 (2019-12-13)
 -------------------
 
 * Spacy upgrade into using the en_core_web_sm language model, needed to be installed in an additional independent step.
+
+v0.2.0 (2020-12-27)
+-------------------
+
+* Major upgrades to main dependencies (Spacy, TensorFlow, etc.)

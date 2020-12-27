@@ -1,9 +1,8 @@
 from collections import defaultdict
 from typing import Dict, List
 
-from limbic.limbic_types import Emotion, Lexicon
 from limbic.emotion.utils import load_lexicon
-
+from limbic.limbic_types import Emotion, Lexicon
 
 # This application/product/tool makes use of the NRC Word-Emotion Association Lexicon,
 # created by Saif M. Mohammad and Peter D. Turney at the National Research Council Canada,
@@ -23,9 +22,9 @@ class NotValidNRCLexiconException(Exception):
 def load_nrc_lexicon(lexicon_path: str, lexicon_type: str) -> Lexicon:
     if lexicon_type == 'emotion':
         return _load_nrc_emotion(lexicon_path)
-    elif lexicon_type == 'affect_intensity':
+    if lexicon_type == 'affect_intensity':
         return _load_nrc_affect_intensity(lexicon_path)
-    elif lexicon_type == 'vad':
+    if lexicon_type == 'vad':
         return _load_nrc_vad(lexicon_path)
     raise NotValidNRCLexiconException
 
@@ -43,7 +42,7 @@ def _load_nrc_affect_intensity(lexicon_file_path: str) -> Lexicon:
     categories = set()
     skip = True  # Needed to skip a new disclaimer added to the lexicon file by the NRC.
     with open(lexicon_file_path, 'r') as intensity_file:
-        for idx, line in enumerate(intensity_file.readlines()):
+        for line in intensity_file.readlines():
             if skip:
                 if line == 'term	score	AffectDimension\n':
                     skip = False

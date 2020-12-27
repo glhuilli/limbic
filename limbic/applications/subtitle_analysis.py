@@ -69,10 +69,10 @@ def get_emotions_for_series_folder(
     return _get_emotions_for_series_folder(folder_path, limbic_model, output_file_path)
 
 
-def _get_emotions_for_series_folder(folder_path: str,
-                                    limbic_model: LexiconLimbicModel,
-                                    output_file_path: Optional[str] = None
-                                    ) -> Dict[int, Dict[int, List[TimeEmotion]]]:
+def _get_emotions_for_series_folder(
+        folder_path: str,
+        limbic_model: LexiconLimbicModel,
+        output_file_path: Optional[str] = None) -> Dict[int, Dict[int, List[TimeEmotion]]]:
     """
     Iterate over all sentences in subtitles files in a folder and compute the emotions.
     """
@@ -89,10 +89,10 @@ def _get_emotions_for_series_folder(folder_path: str,
     return seasons_episodes_subtitles_emotions
 
 
-def _get_emotions_for_series_folder_fast(folder_path: str,
-                                         limbic_model: LexiconLimbicModel,
-                                         output_file_path: Optional[str] = None
-                                         ) -> Dict[int, Dict[int, List[TimeEmotion]]]:
+def _get_emotions_for_series_folder_fast(
+        folder_path: str,
+        limbic_model: LexiconLimbicModel,
+        output_file_path: Optional[str] = None) -> Dict[int, Dict[int, List[TimeEmotion]]]:
     """
     Given a folder (assuming all files have S*E* pattern), computes the
     emotions for each episode of each season
@@ -127,22 +127,24 @@ def _get_emotions_for_series_folder_fast(folder_path: str,
     return seasons_episodes_subtitles_emotions
 
 
-def _save_seasons_emotions_to_file(
-        seasons_episodes_subtitles_emotions: Dict[int, Dict[int, List[TimeEmotion]]],
-        output_file_path: str) -> None:
+def _save_seasons_emotions_to_file(seasons_episodes_subtitles_emotions: Dict[int, Dict[
+    int, List[TimeEmotion]]], output_file_path: str) -> None:
     """
     Save dictionary seasons_episodes_subtitles_emotions to file
     """
     with open(output_file_path, 'w') as output_file:
-        json.dump(
-            _season_episode_emotions_to_dict(seasons_episodes_subtitles_emotions), output_file)
+        json.dump(_season_episode_emotions_to_dict(seasons_episodes_subtitles_emotions),
+                  output_file)
 
 
-def _update_seasons_emotions_data(
-        season_episode_time_words: Dict[int, Dict[int, Dict[int, Set[Optional[str]]]]],
-        seasons_episodes_subtitles_emotions: Dict[int, Dict[int, List[TimeEmotion]]],
-        season_episode_time_sentence: Dict[int, Dict[int, Dict[int, List[str]]]],
-        sub_words: Set[str], limbic_model: LexiconLimbicModel) -> None:
+def _update_seasons_emotions_data(season_episode_time_words: Dict[int, Dict[int, Dict[
+    int, Set[Optional[str]]]]], seasons_episodes_subtitles_emotions: Dict[int,
+                                                                          Dict[int,
+                                                                               List[TimeEmotion]]],
+                                  season_episode_time_sentence: Dict[int, Dict[int,
+                                                                               Dict[int,
+                                                                                    List[str]]]],
+                                  sub_words: Set[str], limbic_model: LexiconLimbicModel) -> None:
     """
     Given the data in season_episode_time_words and season_episode_time_sentence
     updates the seasons_episodes_subtitles_emotions dictionary.
@@ -170,15 +172,16 @@ def _update_seasons_emotions_data(
                                             season_episode_time_sentence, index)
     for season, season_data in tqdm(season_episode_time_words.items(), 'sorting emotions by time'):
         for episode in season_data.keys():
-            sorted_emotions = sorted(
-                seasons_episodes_subtitles_emotions[season][episode], key=lambda x: x.seconds)
+            sorted_emotions = sorted(seasons_episodes_subtitles_emotions[season][episode],
+                                     key=lambda x: x.seconds)
             seasons_episodes_subtitles_emotions[season][episode] = sorted_emotions
 
 
-def _add_emotions_from_words(
-        words: Set[Optional[str]], words_emotions: Dict[str, List[Emotion]],
-        seasons_episodes_subtitles_emotions: Dict[int, Dict[int, List[TimeEmotion]]],
-        index: Tuple[int, int, int]) -> None:
+def _add_emotions_from_words(words: Set[Optional[str]], words_emotions: Dict[str, List[Emotion]],
+                             seasons_episodes_subtitles_emotions: Dict[int,
+                                                                       Dict[int,
+                                                                            List[TimeEmotion]]],
+                             index: Tuple[int, int, int]) -> None:
     season, episode, seconds = index
     for word in [x for x in words if x]:
         for emotion in words_emotions[word]:
@@ -186,11 +189,13 @@ def _add_emotions_from_words(
                 TimeEmotion(seconds=seconds, emotion=emotion))
 
 
-def _add_emotions_from_sentence(
-        limbic_model: LexiconLimbicModel,
-        seasons_episodes_subtitles_emotions: Dict[int, Dict[int, List[TimeEmotion]]],
-        season_episode_time_sentence: Dict[int, Dict[int, Dict[int, List[str]]]],
-        index: Tuple[int, int, int]) -> None:
+def _add_emotions_from_sentence(limbic_model: LexiconLimbicModel,
+                                seasons_episodes_subtitles_emotions: Dict[int,
+                                                                          Dict[int,
+                                                                               List[TimeEmotion]]],
+                                season_episode_time_sentence: Dict[int, Dict[int, Dict[int,
+                                                                                       List[str]]]],
+                                index: Tuple[int, int, int]) -> None:
     season, episode, seconds = index
     for sentence in season_episode_time_sentence[season][episode][seconds]:
         for emotion in limbic_model.get_sentence_emotions(sentence):
@@ -271,10 +276,8 @@ def _season_episode_emotions_from_dict(
         for episode, episode_data in season_data.items():
             for emotion in episode_data:
                 output[int(season)][int(episode)].append(
-                    TimeEmotion(
-                        seconds=emotion.get('seconds'),
-                        emotion=Emotion(
-                            category=emotion.get('category'),
-                            value=emotion.get('value'),
-                            term=emotion.get('term'))))
+                    TimeEmotion(seconds=emotion.get('seconds'),
+                                emotion=Emotion(category=emotion.get('category'),
+                                                value=emotion.get('value'),
+                                                term=emotion.get('term'))))
     return output

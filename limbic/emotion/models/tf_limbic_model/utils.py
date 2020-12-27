@@ -1,12 +1,11 @@
-import os
-from datetime import datetime
 import json
+import os
 import pickle
+from datetime import datetime
 from typing import Iterable, List, NamedTuple, Optional
 
-import tensorflow as tf
 import numpy as np
-
+import tensorflow as tf
 
 _FILE_PATH = os.path.dirname(__file__)
 _MODELS_PATH = os.path.join(_FILE_PATH, '../../../models')
@@ -29,7 +28,7 @@ def load_book(lines: Iterable[str]) -> List[str]:
     i.e. this will add lines to every paragraph until we get a new empty line.
     """
     paragraphs = []
-    potential_paragraph = []
+    potential_paragraph: List[str] = []
     for line in lines:
         if line.strip() == '':
             paragraphs.append(' '.join(potential_paragraph).strip())
@@ -59,7 +58,8 @@ def preprocess_sentence(sentence: str) -> str:
 
     In the meantime I'll just keep alphabetic characters amd remove all white space chars.
     """
-    return ''.join([c for c in ' '.join(sentence.split()) if c.isalpha() or c == ' ']).lower().strip()
+    return ''.join([c for c in ' '.join(sentence.split())
+                    if c.isalpha() or c == ' ']).lower().strip()
 
 
 def process_train(train, categories: List[str], max_words: int, max_len: int):
@@ -130,10 +130,10 @@ def build_model(embedding_matrix, params: ModelParams):
     drop_out_rate = params.drop_out_rate
     labels = params.labels
     loss_function = params.loss_function
-    adam_lr_parameter = params.adam_lr_parameterembeddings_matrix
+    adam_lr_parameter = params.adam_lr_parameter
     model_metrics = params.model_metrics
 
-    input_layer = tf.keras.layers.Input(shape=(max_len,))
+    input_layer = tf.keras.layers.Input(shape=(max_len, ))
 
     # First we setup the input layer with out pre-trained embeddings (non trainable as I'm assuming Glove is enough)
     x = tf.keras.layers.Embedding(max_words,
@@ -155,7 +155,10 @@ def build_model(embedding_matrix, params: ModelParams):
     # using kernel size 3 to group in windows of 5 words
     # exploring Lecun uniform initializer more info: http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf
     # more on this: https://medium.com/usf-msds/deep-learning-best-practices-1-weight-initialization-14e5c0295b94
-    x = tf.keras.layers.Conv1D(128, activation='relu', kernel_size=5, kernel_initializer="lecun_uniform")(x)
+    x = tf.keras.layers.Conv1D(128,
+                               activation='relu',
+                               kernel_size=5,
+                               kernel_initializer="lecun_uniform")(x)
 
     # TODO: explore using 2D max pooling as it seems to be a good alternative for sentiment classification
     # check: https://www.aclweb.org/anthology/C16-1329.pdf
@@ -174,10 +177,9 @@ def build_model(embedding_matrix, params: ModelParams):
     # Given that this is a multi-label problem with a sigmoid activation function,
     # using a binary cross-entropy is best suited, check: https://gombru.github.io/2018/05/23/cross_entropy_loss/
     # using Adam well known for it's efficiency and performance vs other optimizers.
-    model.compile(
-        loss=loss_function,
-        optimizer=tf.keras.optimizers.Adam(lr=adam_lr_parameter),
-        metrics=model_metrics)
+    model.compile(loss=loss_function,
+                  optimizer=tf.keras.optimizers.Adam(lr=adam_lr_parameter),
+                  metrics=model_metrics)
     return model
 
 
@@ -190,19 +192,19 @@ def save_model(tokenizer, model, training_metadata):
     For version control, I'll use the current date as there's no need to more granularity.
     """
     current_date = datetime.now().date().isoformat()
-    metadata_file = f'model_metadata_{current_date}.txt'
-    tokenizer_file = f'tokenizer_{current_date}.pickle'
+    metadata_file_path = f'model_metadata_{current_date}.txt'
+    tokenizer_file_path = f'tokenizer_{current_date}.pickle'
     model_file = f'emotions_model_{current_date}.h5'
 
     training_metadata['model_version_date'] = current_date
-    training_metadata['metadata_file'] = metadata_file
-    training_metadata['tokenizer_file'] = tokenizer_file
+    training_metadata['metadata_file'] = metadata_file_path
+    training_metadata['tokenizer_file'] = tokenizer_file_path
     training_metadata['model_file'] = model_file
 
-    with open(metadata_file, 'w') as meta:
+    with open(metadata_file_path, 'w') as meta:
         meta.write(json.dumps(training_metadata, indent=2))
 
-    with open(tokenizer_file, 'wb') as tokenizer_file:
+    with open(tokenizer_file_path, 'wb') as tokenizer_file:
         pickle.dump(tokenizer, tokenizer_file, protocol=pickle.HIGHEST_PROTOCOL)
 
     model.save(model_file)

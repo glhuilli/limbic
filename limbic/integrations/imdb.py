@@ -51,11 +51,11 @@ def _get_imdb_data(seasons_episodes: Dict[int, List[str]]) -> Dict[int, List[Any
     seasons_data: Dict[int, List[Any]] = defaultdict(list)
     for season, episodes in seasons_episodes.items():
         for episode_id in episodes:
-            get_request = requests.get(
-                _OMDB_API_BASE_URL, params={
-                    'apikey': _OMDB_API_KEY,
-                    'i': episode_id
-                })
+            get_request = requests.get(_OMDB_API_BASE_URL,
+                                       params={
+                                           'apikey': _OMDB_API_KEY,
+                                           'i': episode_id
+                                       })
             seasons_data[season].append(json.loads(get_request.content.decode('utf-8')))
             time.sleep(_OMDB_API_WAIT_TIME)
     return seasons_data
