@@ -7,9 +7,6 @@ from limbic.limbic_constants import AFFECT_INTENSITY_EMOTIONS as EMOTIONS
 from limbic.limbic_types import ModelParams
 
 
-_MAX_LEN = 150
-
-
 class LimbicModel(ABC):
     def __init__(self, model_params: Optional[ModelParams]):
         if model_params:

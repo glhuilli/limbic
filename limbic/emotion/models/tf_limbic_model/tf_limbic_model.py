@@ -7,7 +7,6 @@ from limbic.emotion.models.limbic_model import LimbicModel
 from limbic.emotion.models.tf_limbic_model.utils import load_model
 from limbic.limbic_types import ModelParams
 
-
 _VERSION = '2019-11-16'
 # TODO: Move _MAX_LEN and _EMOTIONS parameter to a config file associated to _VERSION
 _MAX_LEN = 150

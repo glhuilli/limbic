@@ -16,7 +16,6 @@ from limbic.emotion.models.limbic_model import LimbicModel
 from limbic.emotion.models.bert_limbic_model.bert_base_uncased import BERTBaseUncased
 from limbic.limbic_types import ModelParams
 
-
 _VERSION = '2021-01-01'
 # TODO: Move _MAX_LEN and _EMOTIONS parameter to a config file associated to _VERSION
 _MAX_LEN = 64
@@ -41,16 +40,16 @@ class BertLimbicModel(LimbicModel):
         model = BERTBaseUncased()
         model.load_state_dict(torch.load(_MODEL_PATH))
         model.to(_DEVICE)
-        return None, model.eval()
+        tokenizer = transformers.BertTokenizer.from_pretrained(_BERT_PATH, do_lower_case=True)
+        return model.eval(), tokenizer
 
-    def sentence_prediction(self, sentence):
-        # tokenizer = TOKENIZER
-        # max_len = MAX_LEN
-        review = str(sentence)
-        review = " ".join(review.split())
+    def sentence_prediction(self, text: str):  # TODO: add typing
+        text = " ".join(str(text).split())  # TODO: add edge cases
 
-        inputs = self.tokenizer.encode_plus(
-            review, None, add_special_tokens=True, max_length=self.max_len)
+        inputs = self.tokenizer.encode_plus(text,
+                                            None,
+                                            add_special_tokens=True,
+                                            max_length=self.max_len)
 
         ids = inputs["input_ids"]
         mask = inputs["attention_mask"]
