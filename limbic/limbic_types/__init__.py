@@ -29,8 +29,8 @@ class ProcessParams(NamedTuple):
     terms_mapping: Optional[Dict[str, str]]
 
 
-class TfModelParams(NamedTuple):
-    model: Any  # TODO: find a way to invoke the TensorFlow python class types.
-    tokenizer: KerasTokenizer
+class ModelParams(NamedTuple):
+    model: Any
+    tokenizer: Any
     max_len: int
     emotions: List[str]
