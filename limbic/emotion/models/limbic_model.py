@@ -1,10 +1,8 @@
-from typing import List
-from typing import Any, Optional, Tuple
 from abc import ABC, abstractmethod
+from typing import Any, List, Optional, Tuple
 
-from limbic.limbic_types import EmotionValue
 from limbic.limbic_constants import AFFECT_INTENSITY_EMOTIONS as EMOTIONS
-from limbic.limbic_types import ModelParams
+from limbic.limbic_types import EmotionValue, ModelParams
 
 
 class LimbicModel(ABC):
@@ -18,20 +16,26 @@ class LimbicModel(ABC):
             self.model, self.tokenizer = self.load_model()
             self.max_len = self.get_max_len()
 
-        # For the moment, all LimbicModelS will assume it was trained for Affect Intensity Emotions.
+        # For the moment, all models will assume it was trained for Affect Intensity Emotions.
         self.emotions = EMOTIONS
 
     @abstractmethod
-    def get_max_len(self) -> int:
-        pass
-
-    @abstractmethod
     def load_model(self) -> Tuple[Any, Any]:
-        pass
+        """
+        Loads the model and tokenizer
+        """
 
     @abstractmethod
     def predict(self, sentence: str):  # TODO: Add typing
-        pass
+        """
+        Predicts the output
+        """
+
+    @abstractmethod
+    def get_max_len(self) -> int:
+        """
+        Returns max_len
+        """
 
     def get_sentence_emotions(self, sentence: str) -> List[EmotionValue]:
         """

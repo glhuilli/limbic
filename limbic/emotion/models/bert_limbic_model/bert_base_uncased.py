@@ -1,15 +1,14 @@
-import transformers
 import torch.nn as nn
+import transformers
 
 # TODO: Load these parameters from a config
-_BERT_PATH = '../data/bert'
 _NUM_LABELS = 4
 
 
 class BERTBaseUncased(nn.Module):
-    def __init__(self):
-        super(BERTBaseUncased, self).__init__()
-        self.bert = transformers.BertModel.from_pretrained(_BERT_PATH)
+    def __init__(self, bert_path: str):
+        super().__init__()
+        self.bert = transformers.BertModel.from_pretrained(bert_path)
         self.bert_drop = nn.Dropout(0.3)
         self.out = nn.Linear(768, _NUM_LABELS)
 

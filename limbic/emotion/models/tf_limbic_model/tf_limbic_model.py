@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 
 from limbic.emotion.models.limbic_model import LimbicModel
-from limbic.emotion.models.tf_limbic_model.utils import load_model
+from limbic.emotion.models.tf_limbic_model.utils import load_model as utils_load_model
 from limbic.limbic_types import ModelParams
 
 _VERSION = '2019-11-16'
@@ -24,7 +24,7 @@ class TfLimbicModel(LimbicModel):
         return _MAX_LEN
 
     def load_model(self) -> Tuple[Any, Any]:
-        return load_model(_VERSION)
+        return utils_load_model(_VERSION)
 
     def _process_input(self, sentence: str):  # TODO: Add typing
         tokenized_sentence = self.tokenizer.texts_to_sequences([sentence])

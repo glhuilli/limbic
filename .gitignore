@@ -1,3 +1,7 @@
+# Bert config 
+limbic/models/bert
+limbic/models/bert_model.bin
+
 # coverage
 cover
 

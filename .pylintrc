@@ -7,6 +7,9 @@
 # W0511: Used when a warning note as FIXME or XXX is detected
 # C0301: Line too long (102/100) (line-too-long)
 # W0108: Lambda may not be necessary (unnecessary-lambda)
-# R0914: Too many local variables (16/15) (too-many-locals) 
+# R0914: Too many local variables (16/15) (too-many-locals) # FIXME
+# E1101: Module 'torch' has no 'long' member (no-member)
+# E1102: torch.tensor is not callable (not-callable)
+# R0913: Too many arguments (7/5) (too-many-arguments) # FIXME
 
-disable=R0903,C0111,W1203,C0103,W0511,C0301,W0108,R0914
+disable=R0903,C0111,W1203,C0103,W0511,C0301,W0108,R0914,E1101,E1102,R0913

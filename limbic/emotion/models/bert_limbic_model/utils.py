@@ -1,32 +1,29 @@
+import os
+from datetime import datetime
+
 import numpy as np
 import pandas as pd
-from sklearn import model_selection
-from sklearn.metrics import label_ranking_average_precision_score
-from tqdm.notebook import tqdm
 import torch
 import torch.nn as nn
-from torch.utils.tensorboard import SummaryWriter
 import transformers
-from transformers import AdamW
-from transformers import get_linear_schedule_with_warmup
+from sklearn import model_selection
+from sklearn.metrics import label_ranking_average_precision_score
+from torch.utils.tensorboard import SummaryWriter
+from tqdm.notebook import tqdm
+from transformers import AdamW, get_linear_schedule_with_warmup
 
 from limbic.emotion.models.bert_limbic_model.bert_dataset import BERTDataset
 from limbic.emotion.models.bert_limbic_model.bert_limbic_model import BERTBaseUncased
 from limbic.limbic_constants import AFFECT_INTENSITY_EMOTIONS as EMOTIONS
 
+# TODO: Move to config file
 DEVICE = "cpu"
 MAX_LEN = 64
 TRAIN_BATCH_SIZE = 8
 VALID_BATCH_SIZE = 4
 EPOCHS = 10
-BERT_PATH = '../data/bert'
-MODEL_PATH = "bert_model.bin"
-TRAINING_FILE = "bert_train.csv"
-TOKENIZER = transformers.BertTokenizer.from_pretrained(BERT_PATH, do_lower_case=True)
+
 NUM_LABELS = 4
-SENTENCE_EMOTIONS_TEST_FILE = '../data/sentence_emotions_test.pickle'
-SENTENCE_EMOTIONS_TRAIN_FILE = '../data/sentence_emotions_train.pickle'
-CONTINUES_TO_BINARY_THRESHOLD = 0.5
 
 # TODO: Review Tensorboard link below if there are other metrics that would be interesting to track
 #   https://towardsdatascience.com/a-complete-guide-to-using-tensorboard-with-pytorch-53cb2301e8c3
@@ -63,7 +60,7 @@ def train_model(data_loader, model, optimizer, device, scheduler, num_labels,
     model.train()
     total_loss = 0
     n = 0
-    for bi, d in tqdm(enumerate(data_loader), total=len(data_loader)):
+    for d in tqdm(data_loader, total=len(data_loader)):
         ids = d['ids']
         token_type_ids = d['token_type_ids']
         mask = d['mask']
@@ -96,7 +93,7 @@ def eval_fn(data_loader, model, device):  # TODO: add typing
     fin_targets = []
     fin_outputs = []
     with torch.no_grad():
-        for bi, d in tqdm(enumerate(data_loader), total=len(data_loader)):
+        for d in tqdm(data_loader, total=len(data_loader)):
             ids = d["ids"]
             token_type_ids = d["token_type_ids"]
             mask = d["mask"]
@@ -113,12 +110,15 @@ def eval_fn(data_loader, model, device):  # TODO: add typing
     return fin_outputs, fin_targets
 
 
-def build_model():  # TODO: add typing
+def build_model(emotions_train_file: str, bert_path: str,
+                output_model_path: str):  # TODO: add typing
     """
     Runs the main loop to build the trained Bert model for multi-label emotion classification
     """
 
-    dfx, y_train_labeled, train_sentences = load_data_file(SENTENCE_EMOTIONS_TRAIN_FILE)
+    tokenizer = transformers.BertTokenizer.from_pretrained(bert_path, do_lower_case=True, truncation=True)
+
+    dfx, _, _ = load_data_file(emotions_train_file)
 
     # TODO: consider adding stratify for multilabel
     df_train, df_valid = model_selection.train_test_split(dfx.sample(n=100, random_state=1),
@@ -128,20 +128,26 @@ def build_model():  # TODO: add typing
     df_train = df_train.reset_index(drop=True)
     df_valid = df_valid.reset_index(drop=True)
 
-    train_dataset = BERTDataset(text=df_train.text.values, target=df_train[EMOTIONS].values)
+    train_dataset = BERTDataset(text=df_train.text.values,
+                                target=df_train[EMOTIONS].values,
+                                tokenizer=tokenizer,
+                                max_len=MAX_LEN)
 
     train_data_loader = torch.utils.data.DataLoader(train_dataset,
                                                     batch_size=TRAIN_BATCH_SIZE,
                                                     num_workers=4)
 
-    valid_dataset = BERTDataset(text=df_valid.text.values, target=df_valid[EMOTIONS].values)
+    valid_dataset = BERTDataset(text=df_valid.text.values,
+                                target=df_valid[EMOTIONS].values,
+                                tokenizer=tokenizer,
+                                max_len=MAX_LEN)
 
     valid_data_loader = torch.utils.data.DataLoader(valid_dataset,
                                                     batch_size=VALID_BATCH_SIZE,
                                                     num_workers=1)
 
     device = torch.device(DEVICE)
-    model = BERTBaseUncased()
+    model = BERTBaseUncased(bert_path)
     model.to(device)
 
     param_optimizer = list(model.named_parameters())
@@ -163,6 +169,8 @@ def build_model():  # TODO: add typing
                                                 num_warmup_steps=0,
                                                 num_training_steps=num_train_steps)
 
+    current_date = datetime.now().date().isoformat()
+    output_model_file = os.path.join(output_model_path, f'bert_emotion_model_{current_date}.bin')
     best_accuracy = 0
     for epoch in tqdm(range(EPOCHS), 'epochs'):
         train_model(train_data_loader, model, optimizer, device, scheduler, NUM_LABELS, epoch)
@@ -171,7 +179,7 @@ def build_model():  # TODO: add typing
         outputs = np.array(outputs)  # >= 0.5
         accuracy = label_ranking_average_precision_score(targets, outputs)
         if accuracy > best_accuracy:
-            torch.save(model.state_dict(), MODEL_PATH)
+            torch.save(model.state_dict(), output_model_file)
             best_accuracy = accuracy
 
     TB_WRITER.close()

@@ -1,7 +1,5 @@
 from typing import Any, Dict, List, NamedTuple, Optional, Set
 
-from keras_preprocessing.text import Tokenizer as KerasTokenizer
-
 
 class Emotion(NamedTuple):
     category: str

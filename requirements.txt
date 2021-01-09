@@ -52,7 +52,6 @@ Keras-Applications==1.0.8
 Keras-Preprocessing==1.1.2
 kiwisolver==1.0.1
 lazy-object-proxy==1.4.3
-limbic==0.1.0
 lxml==4.3.2
 Markdown==3.1.1
 MarkupSafe==1.1.1
@@ -126,7 +125,7 @@ terminado==0.9.1
 termstyle==0.1.11
 testpath==0.4.2
 thinc==7.4.5
-tokenizers==0.9.4
+tokenizers==0.8.0rc4
 toml==0.10.2
 toolz==0.9.0
 torch==1.7.1

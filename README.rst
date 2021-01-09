@@ -289,3 +289,9 @@ v0.2.0 (2020-12-27)
 -------------------
 
 * Major upgrades to main dependencies (Spacy, TensorFlow, etc.)
+
+
+v0.2.1 (2021-01-03)
+-------------------
+
+* Added a BERT-based model for emotion multi-label classification based on Huggingface's BERT Base uncased transformer.
