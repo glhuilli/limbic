@@ -116,6 +116,7 @@ To do this, you can download the latest EmoBERT from `this link <https://drive.g
 Then you can used it to get the emotions for a given sentence, for example:
 
 ::
+
     >>> bert_model.get_sentence_emotions('I have a lot of joy')
     [EmotionValue(category='sadness', value=0.0003411198),
      EmotionValue(category='joy', value=0.9990711),
@@ -319,4 +320,4 @@ v0.2.0 (2020-12-27)
 v0.2.1 (2021-01-03)
 -------------------
 
-* Added a BERT-based model for emotion multi-label classification based on Huggingface's BERT Base uncased transformer.
+* Added a BERT-based model (EmoBERT) for emotion multi-label classification based on Huggingface's BERT Base uncased transformer.
