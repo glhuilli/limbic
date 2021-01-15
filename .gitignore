@@ -1,3 +1,9 @@
+# tensorboard 
+scripts/runs
+
+# macbook
+.DS_Store
+
 # coverage
 cover
 
