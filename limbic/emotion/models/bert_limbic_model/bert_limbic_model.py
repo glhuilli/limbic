@@ -7,8 +7,7 @@ from limbic.emotion.models.bert_limbic_model.bert_base_uncased import BERTBaseUn
 from limbic.emotion.models.limbic_model import LimbicModel
 from limbic.limbic_types import ModelParams
 
-_VERSION = '2021-01-03'
-_MAX_LEN = 64
+MAX_LEN = 64
 
 
 class BertLimbicModel(LimbicModel):
@@ -29,16 +28,17 @@ class BertLimbicModel(LimbicModel):
                  bert_path,
                  model_params: Optional[ModelParams] = None,
                  device='cpu') -> None:
-        LimbicModel.__init__(self, model_params)
         self.bert_path = bert_path
         self.model_path = model_path
         self.device = device
+        self.max_len = MAX_LEN
+        LimbicModel.__init__(self, model_params)
 
     def get_max_len(self) -> int:
-        return self.max_len or _MAX_LEN
+        return self.max_len or MAX_LEN
 
-    def load_model(self) -> Tuple[Any, Any]:
-        model = BERTBaseUncased(self.bert_path)
+    def load_model(self, specific_params: Optional[Any] = None) -> Tuple[Any, Any]:
+        model = BERTBaseUncased(self.bert_path, specific_params)
         model.load_state_dict(torch.load(self.model_path))
         model.to(self.device)
         tokenizer = transformers.BertTokenizer.from_pretrained(self.bert_path, do_lower_case=True)
@@ -50,7 +50,8 @@ class BertLimbicModel(LimbicModel):
         inputs = self.tokenizer.encode_plus(text,
                                             None,
                                             add_special_tokens=True,
-                                            max_length=self.get_max_len())
+                                            max_length=self.get_max_len(),
+                                            truncation=True)
 
         ids = inputs["input_ids"]
         mask = inputs["attention_mask"]

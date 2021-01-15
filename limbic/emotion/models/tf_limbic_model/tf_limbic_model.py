@@ -23,7 +23,7 @@ class TfLimbicModel(LimbicModel):
     def get_max_len(self) -> int:
         return _MAX_LEN
 
-    def load_model(self) -> Tuple[Any, Any]:
+    def load_model(self, specific_params: Optional[Any] = None) -> Tuple[Any, Any]:
         return utils_load_model(_VERSION)
 
     def _process_input(self, sentence: str):  # TODO: Add typing

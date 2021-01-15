@@ -1,0 +1,41 @@
+{
+  "labels": [
+    "sadness",
+    "joy",
+    "fear",
+    "anger"
+  ],
+  "sentence_emotions_test_file": "../data/sentence_emotions_test.pickle",
+  "sentence_emotions_train_file": "../data/sentence_emotions_train.pickle",
+  "continuous_to_binary_threshold": 0.5,
+  "previous_version": "2019-11-16",
+  "tokenized_max_words": 50000,
+  "tokenized_padding_max_len": 150,
+  "embeddings_file": "../data/embeddings/glove.6B.100d.txt",
+  "embeddings_size": 100,
+  "training_params": {
+    "max_len": 150,
+    "max_words": 50000,
+    "embedding_size": 100,
+    "drop_out_rate": 0.1,
+    "labels": [
+      "sadness",
+      "joy",
+      "fear",
+      "anger"
+    ],
+    "loss_function": "binary_crossentropy",
+    "adam_lr_parameter": 0.001,
+    "model_metrics": [
+      "accuracy"
+    ]
+  },
+  "training_batch_size": 256,
+  "training_validation_split": 0.1,
+  "training_epochs": 3,
+  "training_tensorflow_logs": "./tensorflow_logs",
+  "model_version_date": "2021-01-10",
+  "metadata_file": "model_metadata_2021-01-10.txt",
+  "tokenizer_file": "tokenizer_2021-01-10.pickle",
+  "model_file": "emotions_model_2021-01-10.h5"
+}

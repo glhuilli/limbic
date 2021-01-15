@@ -11,16 +11,15 @@ class LimbicModel(ABC):
             self.tokenizer = model_params.tokenizer
             self.model = model_params.model
             self.max_len = model_params.max_len
-            self.emotions = model_params.emotions
         else:
             self.model, self.tokenizer = self.load_model()
             self.max_len = self.get_max_len()
 
-        # For the moment, all models will assume it was trained for Affect Intensity Emotions.
+            # For the moment, all models will assume it was trained for Affect Intensity Emotions.
         self.emotions = EMOTIONS
 
     @abstractmethod
-    def load_model(self) -> Tuple[Any, Any]:
+    def load_model(self, specific_params: Optional[Any] = None) -> Tuple[Any, Any]:
         """
         Loads the model and tokenizer
         """
