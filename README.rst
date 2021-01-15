@@ -101,6 +101,31 @@ It's very important to understand the constraints and limitations of the model:
 - This model works within the boundaries of a full sentence and it's not word-based. If the sentence is larger than 150 words, then it will be clipped to the first 150 words.
 - Negations in a sentence have not been properly learned by the model yet. This is for sure one of the main areas of improvement (e.g. "I'm not happy" will be classified with a high likelihood of "joy")
 
+
+There's also an option to try a EmoBERT, trained by refining HuggingFace BERT, training it for a multi-label classification problem using the same data set used for training the ``TfLimbicModel``.
+
+To do this, you can download the latest EmoBERT from `this link <https://drive.google.com/file/d/1XUyd2DPsRVZca51oPxBVmmhA1j2kDYdy/view?usp=sharing>`__ and the BERT Base uncased files from `HuggingFace <https://huggingface.co/bert-base-uncased/tree/main>`__ (``config.json``, `pytorch_model.bin``, and ``vocab.txt``). Once this is ready (you can place them in ``data/models`` and ``data/bert`` respectively), you can load EmoBERT using the following,
+
+.. code:: python
+
+    bert_path = '../data/bert'
+    model_path = '../data/models/emo_bert_model_2021-01-10.bin'
+
+    bert_model = BertLimbicModel(model_path, bert_path)
+
+Then you can used it to get the emotions for a given sentence, for example:
+
+::
+    >>> bert_model.get_sentence_emotions('I have a lot of joy')
+    [EmotionValue(category='sadness', value=0.0003411198),
+     EmotionValue(category='joy', value=0.9990711),
+     EmotionValue(category='fear', value=0.0003754736),
+     EmotionValue(category='anger', value=0.00021218295)]
+
+
+Note that this model is not as good as ``TfLimbicModel``, but you are more than welcome to help improve it :)
+
+
 Importing a lexicon-based emotion classifier
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
