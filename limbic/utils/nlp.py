@@ -8,9 +8,7 @@ nlp = spacy.load('en_core_web_sm')
 def get_negated_words(sentence: str) -> List[str]:
     """
     Given a sentence, identify all negated words following different
-    NLP rules. Based on Spacy.
-
-    More details in http:// TODO: add link when available
+    NLP rules. Based on Spacy's dependency trees and some hand.
     """
     doc = nlp(sentence)
     negation_tokens = [token for token in doc if token.dep_ == 'neg']
