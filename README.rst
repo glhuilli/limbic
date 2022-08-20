@@ -321,3 +321,10 @@ v0.2.1 (2021-01-03)
 -------------------
 
 * Added a BERT-based model (EmoBERT) for emotion multi-label classification based on Huggingface's BERT Base uncased transformer.
+
+
+v0.3.1 (2022-08-20)
+-------------------
+
+* Updated all dependencies.
+* Improved the loading strategy for NRC files as they have changed over time.

@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from limbic.emotion.utils import load_lexicon
 from limbic.limbic_types import Emotion, Lexicon
@@ -17,6 +17,14 @@ from limbic.limbic_types import Emotion, Lexicon
 
 class NotValidNRCLexiconException(Exception):
     pass
+
+
+def is_float(element: Any) -> bool:
+    try:
+        float(element)
+        return True
+    except ValueError:
+        return False
 
 
 def load_nrc_lexicon(lexicon_path: str, lexicon_type: str) -> Lexicon:
@@ -40,16 +48,19 @@ def _load_nrc_affect_intensity(lexicon_file_path: str) -> Lexicon:
     """
     data: Dict[str, List[Emotion]] = defaultdict(list)
     categories = set()
-    skip = True  # Needed to skip a new disclaimer added to the lexicon file by the NRC.
     with open(lexicon_file_path, 'r') as intensity_file:
         for line in intensity_file.readlines():
-            if skip:
-                if line == 'term	score	AffectDimension\n':
-                    skip = False
+            line_split = line.strip().split('\t')
+            if is_float(line_split[1]):
+                term, score, affect_dimension = line_split
+                data[term].append(Emotion(value=float(score), category=affect_dimension, term=term))
+                categories.add(affect_dimension)
+            elif is_float(line_split[2]):
+                term, affect_dimension, score = line_split
+                data[term].append(Emotion(value=float(score), category=affect_dimension, term=term))
+                categories.add(affect_dimension)
+            else:
                 continue
-            term, score, affect_dimension = line.strip().split('\t')
-            data[term].append(Emotion(value=float(score), category=affect_dimension, term=term))
-            categories.add(affect_dimension)
     return Lexicon(emotion_mapping=data, categories=categories)
 
 
