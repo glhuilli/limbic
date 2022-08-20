@@ -9,7 +9,6 @@ TEST_CASES = {
     'I have not created this.': ['created'],
     "You won't believe me.": ['believe'],
     'Even John could not guess.': ['guess'],
-    'it sounds like flattery but it aint no flattery': ['flattery'],
     "no that's not quite it": [],
     "That's not for you to worry about": [],
     "there is not even a dog to give food to": [],
