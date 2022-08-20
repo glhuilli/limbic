@@ -328,3 +328,7 @@ v0.3.1 (2022-08-20)
 
 * Updated all dependencies.
 * Improved the loading strategy for NRC files as they have changed over time.
+
+v0.4.1 (2022-08-20)
+-------------------
+* Removed cross package dependencies from requirements.txt and anchored the NLP layer to Spacy v2.3.7. Note that a newer version of Spacy would probably need some refactor of the code.
