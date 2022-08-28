@@ -17,6 +17,7 @@ class TfLimbicModel(LimbicModel):
     Note that this is just an interface to use the model as input.
     The actual model and it's training details are available in emotion/models/tf_limbic_model/utils.py
     """
+
     def __init__(self, model_params: Optional[ModelParams] = None) -> None:
         LimbicModel.__init__(self, model_params)
 

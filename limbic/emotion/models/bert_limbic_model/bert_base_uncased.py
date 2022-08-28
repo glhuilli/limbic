@@ -11,6 +11,7 @@ _DEFAULT_NUM_LABELS = 4
 
 
 class BERTBaseUncased(nn.Module):
+
     def __init__(self, bert_path: str, bert_params: Optional[BertBaseUncaseParams]):
         super().__init__()
         self.bert = transformers.BertModel.from_pretrained(bert_path)

@@ -2,6 +2,7 @@ import torch
 
 
 class BERTDataset(torch.utils.data.Dataset):
+
     def __init__(self, text, target, tokenizer, max_len):
         self.text = text
         self.target = target

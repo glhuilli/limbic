@@ -23,6 +23,7 @@ class BertLimbicModel(LimbicModel):
      - vocab.txt
      - pytorch_model.bin
     """
+
     def __init__(self,
                  model_path,
                  bert_path,
