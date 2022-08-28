@@ -7,6 +7,7 @@ from limbic.utils.text import process_content
 
 
 class LexiconLimbicModel:
+
     def __init__(self, lexicon: Lexicon, terms_mapping: Optional[Dict[str, str]] = None) -> None:
         self.lexicon = lexicon
         self.terms_mapping = terms_mapping or {}

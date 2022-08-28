@@ -6,6 +6,7 @@ from limbic.limbic_types import EmotionValue, ModelParams
 
 
 class LimbicModel(ABC):
+
     def __init__(self, model_params: Optional[ModelParams]):
         if model_params:
             self.tokenizer = model_params.tokenizer
