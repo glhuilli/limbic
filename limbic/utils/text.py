@@ -200,7 +200,7 @@ def _remove_stopwords(sentence_tokens: Iterable[str], language: str) -> Iterable
     """
     Exclude any stop word in the input set of tokens
     """
-    if language == 'us-en':
+    if language == 'en-us':
         stopwords = _STOPWORDS
     elif language == 'es':
         stopwords = _ES_STOPWORDS
@@ -211,7 +211,7 @@ def _remove_stopwords(sentence_tokens: Iterable[str], language: str) -> Iterable
 
 def process_content(sentence: str,
                     terms_mapping: Optional[Dict[str, str]] = None,
-                    language: str = 'us-en') -> List[str]:
+                    language: str = 'en-us') -> List[str]:
     """
     Process any input sentence using a dictionary of terms to be mapped, and returning
     a clean set of tokens excluding all stop words.
