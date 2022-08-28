@@ -1,3 +1,6 @@
+import csv
+import statistics
+
 from collections import defaultdict
 from typing import Any, Dict, List
 
@@ -37,8 +40,46 @@ def load_nrc_lexicon(lexicon_path: str, lexicon_type: str) -> Lexicon:
     raise NotValidNRCLexiconException
 
 
-def _load_nrc_emotion(lexicon_file_path) -> Lexicon:
+def _load_nrc_emotion(lexicon_file_path: str) -> Lexicon:
     return load_lexicon(lexicon_file_path)
+
+
+def load_nrc_multilingual(multi_lingual_file_path: str, language: str) -> Lexicon:
+    """
+    Load NRC multi-lingual mapping.
+
+    Note that this is hardcoded to core 4 emotions: joy, anger, fear, sadness
+    """
+    data: Dict[str, List[Emotion]] = defaultdict(list)
+    categories = set()
+    with open(multi_lingual_file_path, 'r') as emotions_mapping_file:
+        reader = csv.DictReader(emotions_mapping_file, delimiter='\t')
+        for line in reader:
+            term = line.get(language)
+            for emotion in ['joy', 'fear', 'anger', 'sadness']:
+                score = float(line.get(emotion, 0))
+                if score > 0:
+                    data[term].append(Emotion(value=score, category=emotion, term=term))
+                    categories.add(emotion)
+    aggregated_data = _aggregate_emotions(data)
+    return Lexicon(emotion_mapping=aggregated_data, categories=categories)
+
+
+def _aggregate_emotions(input_data: Dict[str, List[Emotion]]) -> Dict[str, List[Emotion]]:
+    """
+    If a term has multiple scores for an emotion, keep the average score.
+
+    In the NRC multi-lingual mapping is common that a term could be associated to multiple translations, for example
+    "encouragement" and "zest" both translate to "ánimo" in Spanish.
+    """
+    data: Dict[str, List[Emotion]] = defaultdict(list)
+    for term, emotions in input_data.items():
+        emotion_scores = defaultdict(list)
+        for emotion in emotions:
+            emotion_scores[emotion.category].append(emotion.value)
+        for emotion, values in emotion_scores.items():
+            data[term].append(Emotion(value=statistics.mean(values), category=emotion, term=term))
+    return data
 
 
 def _load_nrc_affect_intensity(lexicon_file_path: str) -> Lexicon:

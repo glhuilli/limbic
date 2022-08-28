@@ -293,6 +293,41 @@ object.
      Emotion(category='joy', value=0.812, term='enjoy')]
 
 
+
+Multi-lingual capabilities
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Download the latest Lexicon from `this link <http://saifmohammad.com/WebDocs/Lexicons/NRC-Emotion-Lexicon.zip>`__ and
+place the lexicon files in your ``data/lexicon`` folder.
+
+Important note: you might need to tweak the ``NRC-Emotion-Intensity-Lexicon-v1-ForVariousLanguages-withZeroIntensityEntries.txt`` lexicon file by removing ``Emotion-Intensity-Score`` from the header.
+
+To use a simple lexicon-based Limbic model with Spanish, you can use the following code:
+
+.. code:: python
+
+    from limbic.emotion.models import LexiconLimbicEsModel
+    from limbic.emotion.nrc_utils import load_nrc_multilingual
+
+    lexicon = load_nrc_multilingual('data/lexicons/NRC-Emotion-Intensity-Lexicon-v1-ForVariousLanguages-withZeroIntensityEntries.txt', 'Spanish')
+    lb = LexiconLimbicEsModel(lexicon)
+
+
+To use this lexicon, you can try then Spanish sentences like the following:
+
+::
+
+    >>> from pprint import pprint
+    >>> sentence = "Estoy muy enojado"
+    >>> pprint(lb.get_sentence_emotions(sentence))
+    [Emotion(category='anger', value=0.802, term='enojado'),
+     Emotion(category='fear', value=0.547, term='enojado'),
+     Emotion(category='sadness', value=0.5, term='enojado')]
+    >>> sentence = "Estoy muy contento"
+    >>> pprint(lb.get_sentence_emotions(sentence))
+    [Emotion(category='joy', value=0.762, term='contento')]
+
+
 Changelog
 =========
 
@@ -332,3 +367,7 @@ v0.3.1 (2022-08-20)
 v0.4.1 (2022-08-20)
 -------------------
 * Removed cross package dependencies from requirements.txt and anchored the NLP layer to Spacy v2.3.7. Note that a newer version of Spacy would probably need some refactor of the code.
+
+v0.4.2 (2022-08-27)
+-------------------
+* Added basic multi-lingual capabilities (currently supporting Spanish in addition to English) using the latest NRC Emotion Lexicon added in August 2022 (http://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm)
