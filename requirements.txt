@@ -101,7 +101,7 @@ six==1.16.0
 soupsieve==2.3.2
 srt==3.5.2
 statsmodels==0.13.2
-tensorflow==2.9.1
+tensorflow==2.9.3
 tensorflow-estimator==2.9.0
 termcolor==1.1.0
 terminado==0.15.0
